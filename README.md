@@ -9,6 +9,11 @@ Another example, an index covering some polygons in inner Oslo Fjord:
 
 ![image](https://user-images.githubusercontent.com/3635018/113932377-d0270f80-97f3-11eb-9514-ab1a5bf1df8a.png)
 
+A final example, some polygons related to offshore installations in the north sea:
+
+![image](https://user-images.githubusercontent.com/3635018/113935496-ed111200-97f6-11eb-9e36-0157439fef06.png)
+
+
 ## Quickstart
 Build the index:
 ```csharp
