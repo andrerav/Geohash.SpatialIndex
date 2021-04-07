@@ -1,4 +1,6 @@
-﻿namespace Geohash.SpatialIndex.Core
+﻿using System;
+
+namespace Geohash.SpatialIndex.Core
 {
 	public static class GeohashIndexUtil
 	{
@@ -26,7 +28,7 @@
 				}
 				match = j - 1;
 				if (match == -1)
-					return "";
+				return "";
 			}
 			return pre.Substring(0, match + 1);
 		}
