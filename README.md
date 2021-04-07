@@ -1,5 +1,5 @@
 # Geohash.SpatialIndex
-A spatial index backed by geohashing and trie maps. Index entries are stored as an inverted index, and lookups are performed by using a prefix tree (Trie) map. The index size can be tuned with the precision parameter. The geohasher and prefix tree map providers can be injected by implementing the `IGeohasher` and/or `IGeohashTrieMap<TEntryList, T>` interfaces. This library ships with default implementations that uses [rm.Trie](https://github.com/rmandvikar/csharp-trie) and [geohash-dotnet](https://github.com/postlagerkarte/geohash-dotnet).
+A spatial index backed by geohashing and Trie (prefix tree) maps. Geometries are encoded as geohashes and stored in a prefix tree, and reverse lookups are performing by encoding the queried geometry and using the prefix tree as an inverted lookup index. The index size can be tuned with the precision parameter. The geohasher and prefix tree map providers can be injected by implementing the `IGeohasher` and/or `IGeohashTrieMap<TEntryList, T>` interfaces. This library ships with default implementations that uses [rm.Trie](https://github.com/rmandvikar/csharp-trie) and [geohash-dotnet](https://github.com/postlagerkarte/geohash-dotnet).
 
 ## Quickstart
 Build the index:
