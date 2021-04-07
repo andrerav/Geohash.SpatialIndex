@@ -1,5 +1,5 @@
 # Geohash.SpatialIndex
-A spatial index backed by geohashing and trie maps.
+A spatial index backed by geohashing and trie maps. Index entries are stored as an inverted index, and lookups are performed by using a prefix tree (Trie) map. The index size can be tuned with the precision parameter. The geohasher and prefix tree map providers can be injected by implementing the `IGeohasher` and/or `IGeohashTrieMap<TEntryList, T>` interfaces. This library ships with default implementations that uses [rm.Trie](https://github.com/rmandvikar/csharp-trie) and [geohash-dotnet](https://github.com/postlagerkarte/geohash-dotnet).
 
 ## Quickstart
 Build the index:
@@ -21,12 +21,10 @@ Query the index:
 var result = index.Query(geom)
 ```
 
-You can also use one of the provided spatial relations which is backed by NetTopolgySuite:
+You can also use one of the provided spatial relation functions provided which is backed by NetTopologySuite:
 ```csharp
 var relations = new GeohashSpatialIndexRelations<MyGisObjType>(index);
-var intersects_result = relations.STIntersects(myGeom);
-var contains_result = relations.STContains(myGeom);
-var overlaps_result = relations.STOverlaps(myGeom);
+var result = relations.STIntersects(myGeom);
 ```
 Here is a full list of currently supported spatial relations:
 * STContains()
