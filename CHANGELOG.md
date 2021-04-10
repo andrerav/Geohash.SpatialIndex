@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.1.1-pre
+* Added license expression to NuGet packages
+* Updated Authors field and added link to release notes
+* Debug symbols are now included when building packages
+
 ## Version 0.1.0-pre
 * Added logo image files.
 * Added Directory.build.props file which contains common project properties such as version number.
