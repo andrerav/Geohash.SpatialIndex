@@ -11,7 +11,7 @@ namespace Geohash.SpatialIndex.Core
 	/// <typeparam name="T"></typeparam>
 	public interface IGeohashTrieMap<TEntryList, T> where TEntryList : GeohashIndexEntryList<T>
 	{
-		void Add(string key, GeohashIndexEntry<T> entry);
+		void Add(string key, IndexEntry<T> entry);
 
 		bool HasKey(string key);
 

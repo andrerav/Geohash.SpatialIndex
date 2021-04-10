@@ -2,7 +2,7 @@
 using rm.Trie;
 using System.Collections.Generic;
 
-namespace Geohash.SpatialIndex.Relations
+namespace Geohash.SpatialIndex.SpatialRelations
 {
 	/// <summary>
 	/// A default implementation of a trie map using the rm.Trie nuget package from https://www.nuget.org/packages/rm.Trie
@@ -12,7 +12,7 @@ namespace Geohash.SpatialIndex.Relations
 	{
 		private TrieMap<GeohashIndexEntryList<T>> trieMap = new TrieMap<GeohashIndexEntryList<T>>();
 
-		public void Add(string key, GeohashIndexEntry<T> entry)
+		public void Add(string key, IndexEntry<T> entry)
 		{
 			GeohashIndexEntryList<T> trieMapEntryList;
 			if (trieMap.HasKey(key))

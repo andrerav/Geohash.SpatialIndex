@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geohash.SpatialIndex.Core",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geohash.SpatialIndex.Tests", "Geohash.SpatialIndex.Tests\Geohash.SpatialIndex.Tests.csproj", "{537DC4E5-7953-4BDA-B99F-A6DA74B44003}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geohash.SpatialIndex.Relations", "Geohash.SpatialIndex.Relations\Geohash.SpatialIndex.Relations.csproj", "{CA44C737-6F0F-42FC-8E7C-68CA19A9D6BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geohash.SpatialIndex.SpatialRelations", "Geohash.SpatialIndex.SpatialRelations\Geohash.SpatialIndex.SpatialRelations.csproj", "{CA44C737-6F0F-42FC-8E7C-68CA19A9D6BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

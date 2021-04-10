@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Geohash.SpatialIndex.Relations
+namespace Geohash.SpatialIndex.SpatialRelations
 {
-	public class GeohashSpatialIndexRelations<T> : IGeohashSpatialIndexRelations<T>
+	public class SpatialRelations<T> : ISpatialRelations<T>
 	{
 		private IGeohashSpatialIndex<T> _geohashSpatialIndex;
 
-		public GeohashSpatialIndexRelations(IGeohashSpatialIndex<T> geohashSpatialIndex)
+		public SpatialRelations(IGeohashSpatialIndex<T> geohashSpatialIndex)
 		{
 			_geohashSpatialIndex = geohashSpatialIndex;
 		}
@@ -22,8 +22,8 @@ namespace Geohash.SpatialIndex.Relations
 		/// <param name="geom"></param>
 		/// <param name="k"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> KNN(int k, Geometry geom,
-			Func<GeohashIndexEntry<T>, double> distanceMetric,
+		public IEnumerable<IndexEntry<T>> KNN(int k, Geometry geom,
+			Func<IndexEntry<T>, double> distanceMetric,
 			T exclude = default)
 		{
 			var (trieMapSearchResult, reducedHash) = _geohashSpatialIndex.Query(geom, k, exclude: exclude);
@@ -42,7 +42,7 @@ namespace Geohash.SpatialIndex.Relations
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> STContains(Geometry geom, T exclude = default)
+		public IEnumerable<IndexEntry<T>> STContains(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
@@ -54,7 +54,7 @@ namespace Geohash.SpatialIndex.Relations
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> STContainsProperly(Geometry geom, T exclude = default)
+		public IEnumerable<IndexEntry<T>> STContainsProperly(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
@@ -66,7 +66,7 @@ namespace Geohash.SpatialIndex.Relations
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> STCrosses(Geometry geom, T exclude = default)
+		public IEnumerable<IndexEntry<T>> STCrosses(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
@@ -78,7 +78,7 @@ namespace Geohash.SpatialIndex.Relations
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> STEquals(Geometry geom, T exclude = default)
+		public IEnumerable<IndexEntry<T>> STEquals(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
@@ -90,7 +90,7 @@ namespace Geohash.SpatialIndex.Relations
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> STIntersects(Geometry geom, T exclude = default)
+		public IEnumerable<IndexEntry<T>> STIntersects(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
@@ -102,8 +102,8 @@ namespace Geohash.SpatialIndex.Relations
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns></returns>
-		public GeohashIndexEntry<T> STNearestNeighbour(Geometry geom, 
-			Func<GeohashIndexEntry<T>, double> distanceMetric,
+		public IndexEntry<T> STNearestNeighbour(Geometry geom,
+			Func<IndexEntry<T>, double> distanceMetric,
 			T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
@@ -115,7 +115,7 @@ namespace Geohash.SpatialIndex.Relations
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> STOverlaps(Geometry geom, T exclude = default)
+		public IEnumerable<IndexEntry<T>> STOverlaps(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
@@ -127,7 +127,7 @@ namespace Geohash.SpatialIndex.Relations
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> STTouches(Geometry geom, T exclude = default)
+		public IEnumerable<IndexEntry<T>> STTouches(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
@@ -140,7 +140,7 @@ namespace Geohash.SpatialIndex.Relations
 		/// <param name="geom"></param>
 		/// <param name="exclude"></param>
 		/// <returns></returns>
-		public IEnumerable<GeohashIndexEntry<T>> STWithin(Geometry geom, T exclude = default)
+		public IEnumerable<IndexEntry<T>> STWithin(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);

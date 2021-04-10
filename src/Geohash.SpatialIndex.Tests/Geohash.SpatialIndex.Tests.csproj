@@ -15,7 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Geohash.SpatialIndex.Relations\Geohash.SpatialIndex.Relations.csproj" />
+	  <ProjectReference Include="..\Geohash.SpatialIndex.SpatialRelations\Geohash.SpatialIndex.SpatialRelations.csproj" />
 	  <ProjectReference Include="..\Geohash.SpatialIndex.Core\Geohash.SpatialIndex.Core.csproj" />
 	</ItemGroup>
 

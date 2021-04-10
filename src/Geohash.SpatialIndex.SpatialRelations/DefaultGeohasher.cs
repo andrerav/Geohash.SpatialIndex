@@ -3,7 +3,7 @@ using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Geohash.SpatialIndex.Relations
+namespace Geohash.SpatialIndex.SpatialRelations
 {
 	/// <summary>
 	/// A default geohasher implementation using the geohash-dotnet nuget package from https://www.nuget.org/packages/geohash-dotnet/

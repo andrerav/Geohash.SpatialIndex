@@ -1,5 +1,5 @@
 using Geohash.SpatialIndex.Core;
-using Geohash.SpatialIndex.Relations;
+using Geohash.SpatialIndex.SpatialRelations;
 using Geohash.SpatialIndex.Tests.Models;
 using NUnit.Framework;
 using System;
@@ -13,14 +13,14 @@ namespace Geohash.SpatialIndex.Tests
 	{
 		private List<HarbourPolygon> polygons;
 		private GeohashSpatialIndex<int> index;
-		private GeohashSpatialIndexRelations<int> relations;
+		private SpatialRelations<int> relations;
 
 		[OneTimeSetUp]
 		public void Setup()
 		{
 			polygons = TestUtil.ReadCsvFile<HarbourPolygon, HarbourCsvClassMap>("./Resources/harbours_polygons.csv");
 			index = new GeohashSpatialIndex<int>(new DefaultGeohasher(), new DefaultTrieMap<int>(), 9);
-			relations = new GeohashSpatialIndexRelations<int>(index);
+			relations = new SpatialRelations<int>(index);
 			foreach (var polygon in polygons)
 			{
 				index.Insert(polygon.Geom, polygon.HarbourId);
@@ -34,7 +34,7 @@ namespace Geohash.SpatialIndex.Tests
 			var success = 0;
 			Parallel.ForEach(polygons, polygon =>
 			{
-				var distanceMetric = new Func<GeohashIndexEntry<int>, double>(entry => entry.Geom.Envelope.Distance(polygon.Geom.Envelope));
+				var distanceMetric = new Func<IndexEntry<int>, double>(entry => entry.Geom.Envelope.Distance(polygon.Geom.Envelope));
 				var result = relations.KNN(K, polygon.Geom, distanceMetric, exclude: polygon.HarbourId).ToList();
 				if (result.Count() == K)
 				{
@@ -76,7 +76,7 @@ namespace Geohash.SpatialIndex.Tests
 		{
 			Parallel.ForEach(polygons, polygon =>
 			{
-				var distanceMetric = new Func<GeohashIndexEntry<int>, double>(entry => entry.Geom.Envelope.Distance(polygon.Geom.Envelope));
+				var distanceMetric = new Func<IndexEntry<int>, double>(entry => entry.Geom.Envelope.Distance(polygon.Geom.Envelope));
 				var result = relations.STNearestNeighbour(polygon.Geom.Envelope, distanceMetric, exclude: polygon.HarbourId);
 				Assert.IsNotNull(result);
 				Assert.IsTrue(result.Value != polygon.HarbourId);

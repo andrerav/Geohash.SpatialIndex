@@ -29,7 +29,7 @@ namespace Geohash.SpatialIndex.Core
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <param name="value"></param>
-		(string, GeohashIndexEntry<T>) Insert(Geometry geom, T value);
+		(string, IndexEntry<T>) Insert(Geometry geom, T value);
 
 		/// <summary>
 		/// Remove the given item from the index
@@ -43,7 +43,7 @@ namespace Geohash.SpatialIndex.Core
 		/// </summary>
 		/// <param name="geom"></param>
 		/// <returns>A list of matching geometries that may or may not intersect, contain or overlap the queried geometry within the same geohash cell</returns>
-		IEnumerable<GeohashIndexEntry<T>> Query(Geometry geom);
+		IEnumerable<IndexEntry<T>> Query(Geometry geom);
 
 		/// <summary>
 		/// Search the trie map while gradually reducing the geohash resolution for the given geometry until we find a match.
@@ -54,7 +54,7 @@ namespace Geohash.SpatialIndex.Core
 		/// <param name="lockPrecision">Set this to true to disable precision reduction in the search procedure. This will improve results but may give zero or few results. Default value is false.</param>
 		/// <returns>A list of matching geometries that may or may not intersect, contain or overlap the queried geometry</returns>
 
-		(IEnumerable<GeohashIndexEntry<T>>, string) Query(Geometry geom, int minimumHits = 1, bool lockPrecision = false, T exclude = default);
+		(IEnumerable<IndexEntry<T>>, string) Query(Geometry geom, int minimumHits = 1, bool lockPrecision = false, T exclude = default);
 
 		/// <summary>
 		/// Search the trie map while gradually reducing the geohash resolution for the given geohash until we find a match.
@@ -64,7 +64,7 @@ namespace Geohash.SpatialIndex.Core
 		/// <param name="minimumHits">A minimum number of hits before the search is satisfied. Default value is 1.</param>
 		/// <param name="lockPrecision">Set this to true to disable precision reduction in the search procedure. This will improve results but may give zero or few results. Default value is false.</param>
 		/// <returns>A list of matching geometries that may or may not intersect, contain or overlap the queried geometry</returns>
-		(IEnumerable<GeohashIndexEntry<T>>, string) Query(string hash, int minimumHits = 1, bool lockPrecision = false, T exclude = default);
+		(IEnumerable<IndexEntry<T>>, string) Query(string hash, int minimumHits = 1, bool lockPrecision = false, T exclude = default);
 
 		/// <summary>
 		/// The geohash implementation for this index

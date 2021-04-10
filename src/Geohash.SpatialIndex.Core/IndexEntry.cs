@@ -2,7 +2,7 @@
 
 namespace Geohash.SpatialIndex.Core
 {
-	public class GeohashIndexEntry<T>
+	public class IndexEntry<T>
 	{
 		public T Value;
 		public Geometry Geom;
