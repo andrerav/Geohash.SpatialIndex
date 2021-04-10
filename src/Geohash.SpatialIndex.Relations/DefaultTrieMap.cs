@@ -54,7 +54,7 @@ namespace Geohash.SpatialIndex.Relations
 				var entry = trieMap.ValueBy(key);
 				if (entry != null)
 				{
-					entry.IndexEntries.RemoveAll(entry => entry.Value.Equals(value));
+					entry.IndexEntries.RemoveAll(ie => ie.Value.Equals(value));
 				}
 			}
 		}
