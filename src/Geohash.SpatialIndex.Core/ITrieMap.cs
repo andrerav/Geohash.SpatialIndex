@@ -23,6 +23,8 @@ namespace Geohash.SpatialIndex.Core
 
 		void RemovePrefix(string prefix);
 
+		IEnumerable<string> Keys();
+
 		TEntryList Get(string key);
 
 		IEnumerable<TEntryList> Search(string prefix);

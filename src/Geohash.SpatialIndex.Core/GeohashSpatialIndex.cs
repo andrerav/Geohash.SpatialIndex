@@ -69,15 +69,12 @@ namespace Geohash.SpatialIndex.Core
 			IEnumerable<IndexEntry<T>> entries;
 			while (true)
 			{
-				var trieMapSearchResult = _trieMap.Search(hash);
-				entries = trieMapSearchResult.SelectMany(sr => sr.IndexEntries); // Each entry in the map is a list, so we flatten the result
-				int hitCount;
+				entries = Search(hash);
 				if (exclude != null && !exclude.Equals(default(T)))
 				{
 					entries = entries.Where(entry => !entry.Value.Equals(exclude));
 				}
-				hitCount = entries.Count();
-				if (hitCount >= minimumHits)
+				if (entries.Count() >= minimumHits)
 				{
 					break;
 				}
@@ -93,6 +90,14 @@ namespace Geohash.SpatialIndex.Core
 			}
 
 			return (entries, hash);
+		}
+
+		private IEnumerable<IndexEntry<T>> Search(string hash)
+		{
+			IEnumerable<IndexEntry<T>> entries;
+			var trieMapSearchResult = _trieMap.Search(hash);
+			entries = trieMapSearchResult.SelectMany(sr => sr.IndexEntries); // Each entry in the map is a list, so we flatten the result
+			return entries;
 		}
 	}
 }

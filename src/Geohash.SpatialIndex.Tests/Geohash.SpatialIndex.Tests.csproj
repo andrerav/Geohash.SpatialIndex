@@ -17,10 +17,14 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Geohash.SpatialIndex.SpatialRelations\Geohash.SpatialIndex.SpatialRelations.csproj" />
 	  <ProjectReference Include="..\Geohash.SpatialIndex.Core\Geohash.SpatialIndex.Core.csproj" />
+	  <ProjectReference Include="..\Geohash.SpatialIndex.Tools\Geohash.SpatialIndex.Tools.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Update="Resources\harbours_polygons.csv">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\vessel_points.csv">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Geohash.SpatialIndex.Core\Geohash.SpatialIndex.Core.csproj" />
+	</ItemGroup>
+
+</Project>

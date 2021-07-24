@@ -1,6 +1,7 @@
 ﻿using Geohash.SpatialIndex.Core;
 using rm.Trie;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Geohash.SpatialIndex.SpatialRelations
 {
@@ -42,6 +43,11 @@ namespace Geohash.SpatialIndex.SpatialRelations
 			return trieMap.HasKeyPrefix(prefix);
 		}
 
+		public IEnumerable<string> Keys()
+		{
+			return trieMap.Keys();
+		}
+
 		public void Remove(string key)
 		{
 			trieMap.Remove(key);
@@ -68,5 +74,6 @@ namespace Geohash.SpatialIndex.SpatialRelations
 		{
 			return trieMap.ValuesBy(prefix);
 		}
+
 	}
 }
