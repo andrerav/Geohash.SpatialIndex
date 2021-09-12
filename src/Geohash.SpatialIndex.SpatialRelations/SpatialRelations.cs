@@ -44,7 +44,7 @@ namespace Geohash.SpatialIndex.SpatialRelations
 		/// <returns></returns>
 		public IEnumerable<IndexEntry<T>> STContains(Geometry geom, T exclude = default)
 		{
-			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
+			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, minimumHits:0, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
 			return trieMapSearchResult.Where(ie => preparedGeom.Contains(ie.Geom)).ToList();
 		}
@@ -56,7 +56,7 @@ namespace Geohash.SpatialIndex.SpatialRelations
 		/// <returns></returns>
 		public IEnumerable<IndexEntry<T>> STContainsProperly(Geometry geom, T exclude = default)
 		{
-			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
+			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, minimumHits: 0, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
 			return trieMapSearchResult.Where(ie => preparedGeom.ContainsProperly(ie.Geom)).ToList();
 		}
@@ -80,7 +80,7 @@ namespace Geohash.SpatialIndex.SpatialRelations
 		/// <returns></returns>
 		public IEnumerable<IndexEntry<T>> STEquals(Geometry geom, T exclude = default)
 		{
-			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
+			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, minimumHits: 0, exclude: exclude);
 			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
 			return trieMapSearchResult.Where(ie => preparedGeom.Equals(ie.Geom)).ToList();
 		}
@@ -93,8 +93,15 @@ namespace Geohash.SpatialIndex.SpatialRelations
 		public IEnumerable<IndexEntry<T>> STIntersects(Geometry geom, T exclude = default)
 		{
 			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
-			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
-			return trieMapSearchResult.Where(ie => preparedGeom.Intersects(ie.Geom)).ToList();
+			if (geom is Point)
+			{
+				return trieMapSearchResult.Where(ie => geom.Intersects(ie.Geom)).ToList();
+			}
+			else
+			{
+				var preparedGeom = PreparedGeometryFactory.Prepare(geom);
+				return trieMapSearchResult.Where(ie => preparedGeom.Intersects(ie.Geom)).ToList();
+			}
 		}
 
 		/// <summary>
@@ -142,9 +149,10 @@ namespace Geohash.SpatialIndex.SpatialRelations
 		/// <returns></returns>
 		public IEnumerable<IndexEntry<T>> STWithin(Geometry geom, T exclude = default)
 		{
-			var (trieMapSearchResult, _) = _geohashSpatialIndex.Query(geom, exclude: exclude);
-			var preparedGeom = PreparedGeometryFactory.Prepare(geom);
-			return trieMapSearchResult.Where(ie => preparedGeom.Within(ie.Geom)).ToList();
+			var (trieMapSearchResult, hash) = _geohashSpatialIndex.Query(geom, minimumHits:0, exclude: exclude);
+			//var preparedGeom = PreparedGeometryFactory.Prepare(geom);
+			return trieMapSearchResult
+				.Where(ie => ie.Geom.Within(geom)).ToList();
 		}
 	}
 }

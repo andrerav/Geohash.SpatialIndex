@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geohash.SpatialIndex.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geohash.SpatialIndex.SpatialRelations", "Geohash.SpatialIndex.SpatialRelations\Geohash.SpatialIndex.SpatialRelations.csproj", "{CA44C737-6F0F-42FC-8E7C-68CA19A9D6BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geohash.SpatialIndex.Tools", "Geohash.SpatialIndex.Tools\Geohash.SpatialIndex.Tools.csproj", "{6D8324D9-8B2B-4888-9797-83236FD9CF60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CA44C737-6F0F-42FC-8E7C-68CA19A9D6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA44C737-6F0F-42FC-8E7C-68CA19A9D6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA44C737-6F0F-42FC-8E7C-68CA19A9D6BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D8324D9-8B2B-4888-9797-83236FD9CF60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8324D9-8B2B-4888-9797-83236FD9CF60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8324D9-8B2B-4888-9797-83236FD9CF60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8324D9-8B2B-4888-9797-83236FD9CF60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

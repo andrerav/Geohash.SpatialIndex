@@ -19,6 +19,37 @@ namespace Geohash.SpatialIndex.Tests.Models
 		public virtual bool AnchorPolygon { get; set; }
 	}
 
+	public class VesselPosition
+	{
+		public virtual int Mmsi { get; set; }
+		public virtual string DateTimeUtc { get; set; }
+		public virtual Geometry Geom { get; set; }
+		public virtual double Sog { get; set; }
+		public virtual double Cog { get; set; }
+		public virtual double TrueHeading { get; set; }
+		public virtual int NavStatus { get; set; }
+		public virtual int MessageNr { get; set; }
+	}
+
+	public class VesselPositionCsvClassMap : ClassMap<VesselPosition>
+	{
+		public VesselPositionCsvClassMap()
+		{
+			Map(m => m.Mmsi).Name("mmsi");
+			Map(m => m.DateTimeUtc).Name("timestamp");
+			Map(m => m.Geom).Convert(args =>
+			{
+				var lon = Double.Parse(args.Row.GetField("lon"), CultureInfo.InvariantCulture);
+				var lat = Double.Parse(args.Row.GetField("lat"), CultureInfo.InvariantCulture);
+				var p = new Point(lon, lat);
+				p.SRID = 4326;
+				return p;
+			});
+			Map(m => m.Sog).Name("sog");
+			Map(m => m.Cog).Name("cog");
+		}
+	}
+
 	public class HarbourCsvClassMap : ClassMap<HarbourPolygon>
 	{
 		public HarbourCsvClassMap()
@@ -47,15 +78,18 @@ namespace Geohash.SpatialIndex.Tests.Models
 			BufferSize = 1048576,
 		};
 
-		public static List<TModel> ReadCsvFile<TModel, TClassMap>(string file) where TClassMap : ClassMap<TModel>
+		public static List<TModel> ReadCsvFile<TModel, TClassMap>(string file, string delimiter = ",") where TClassMap : ClassMap<TModel>
 		{
+			var config = DefaultConfig;
+			config.Delimiter = delimiter;
 			var reader = File.OpenText(file);
-			var csv = new CsvReader(reader, DefaultConfig);
+			var csv = new CsvReader(reader, config);
 			csv.Context.RegisterClassMap<TClassMap>();
 			var records = csv.GetRecords<TModel>().ToList();
 			reader.Close();
 			reader.Dispose();
 			csv.Dispose();
+
 			return records;
 		}
 
