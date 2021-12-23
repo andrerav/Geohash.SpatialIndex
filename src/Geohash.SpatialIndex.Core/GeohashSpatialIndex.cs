@@ -44,10 +44,36 @@ namespace Geohash.SpatialIndex.Core
 		}
 
 		///<inheritdoc/>
+		public (string, IndexEntry<T>) InsertOrUpdate(Geometry geom, T value)
+		{
+			var key = _geohasher.Encode(geom, _precision);
+			var entry = new IndexEntry<T>
+			{
+				Geom = geom,
+				Value = value
+			};
+			_trieMap.AddOrUpdate(key, entry);
+			return (key, entry);
+		}
+
+		///<inheritdoc/>
 		public void Remove(Geometry geom, T value)
 		{
 			var key = _geohasher.Encode(geom, _precision);
 			_trieMap.Remove(key, value);
+		}
+
+		///<inheritdoc/>
+		public void Remove(string geohash, T value)
+		{
+			_trieMap.Remove(geohash, value);
+		}
+
+
+		///<inheritdoc/>
+		public void Remove(T value)
+		{
+			_trieMap.Remove(value);
 		}
 
 		///<inheritdoc/>
@@ -64,12 +90,12 @@ namespace Geohash.SpatialIndex.Core
 		}
 
 		///<inheritdoc/>
-		public (IEnumerable<IndexEntry<T>>, string) Query(string hash, int minimumHits = 1, bool lockPrecision = false, T exclude = default)
+		public (IEnumerable<IndexEntry<T>> Entries, string Geohash) Query(string geohash, int minimumHits = 1, bool lockPrecision = false, T exclude = default)
 		{
 			IEnumerable<IndexEntry<T>> entries;
 			while (true)
 			{
-				entries = Search(hash);
+				entries = Search(geohash);
 				if (exclude != null && !exclude.Equals(default(T)))
 				{
 					entries = entries.Where(entry => !entry.Value.Equals(exclude));
@@ -82,20 +108,20 @@ namespace Geohash.SpatialIndex.Core
 				{
 					break;
 				}
-				else if (hash.Length == 1)
+				else if (geohash.Length == 1)
 				{
 					break;
 				}
-				hash = _geohasher.Reduce(hash);
+				geohash = _geohasher.Reduce(geohash);
 			}
 
-			return (entries, hash);
+			return (entries, geohash);
 		}
 
-		private IEnumerable<IndexEntry<T>> Search(string hash)
+		private IEnumerable<IndexEntry<T>> Search(string geohash)
 		{
 			IEnumerable<IndexEntry<T>> entries;
-			var trieMapSearchResult = _trieMap.Search(hash);
+			var trieMapSearchResult = _trieMap.Search(geohash);
 			entries = trieMapSearchResult.SelectMany(sr => sr.IndexEntries); // Each entry in the map is a list, so we flatten the result
 			return entries;
 		}
