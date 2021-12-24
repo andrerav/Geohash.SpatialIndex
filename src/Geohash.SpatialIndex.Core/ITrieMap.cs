@@ -12,6 +12,7 @@ namespace Geohash.SpatialIndex.Core
 	public interface IGeohashTrieMap<TEntryList, T> where TEntryList : GeohashIndexEntryList<T>
 	{
 		void Add(string key, IndexEntry<T> entry);
+		void AddOrUpdate(string key, IndexEntry<T> entry);
 
 		bool HasKey(string key);
 
@@ -20,6 +21,8 @@ namespace Geohash.SpatialIndex.Core
 		void Remove(string key);
 
 		void Remove(string key, T value);
+
+		void Remove(T value);
 
 		void RemovePrefix(string prefix);
 

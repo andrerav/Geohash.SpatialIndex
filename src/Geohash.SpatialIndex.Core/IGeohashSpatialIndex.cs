@@ -32,6 +32,15 @@ namespace Geohash.SpatialIndex.Core
 		(string, IndexEntry<T>) Insert(Geometry geom, T value);
 
 		/// <summary>
+		/// Add a new entry to the index if the given value does not exist, or update the current geohash
+		/// if the geohash has changed.
+		/// </summary>
+		/// <param name="geom"></param>
+		/// <param name="value"></param>
+
+		(string, IndexEntry<T>) InsertOrUpdate(Geometry geom, T value);
+
+		/// <summary>
 		/// Remove the given item from the index
 		/// </summary>
 		/// <param name="value"></param>
@@ -53,7 +62,6 @@ namespace Geohash.SpatialIndex.Core
 		/// <param name="minimumHits">A minimum number of hits before the search is satisfied. Default value is 1.</param>
 		/// <param name="lockPrecision">Set this to true to disable precision reduction in the search procedure. This will improve results but may give zero or few results. Default value is false.</param>
 		/// <returns>A list of matching geometries that may or may not intersect, contain or overlap the queried geometry</returns>
-
 		(IEnumerable<IndexEntry<T>>, string) Query(Geometry geom, int minimumHits = 1, bool lockPrecision = false, T exclude = default);
 
 		/// <summary>
@@ -64,7 +72,7 @@ namespace Geohash.SpatialIndex.Core
 		/// <param name="minimumHits">A minimum number of hits before the search is satisfied. Default value is 1.</param>
 		/// <param name="lockPrecision">Set this to true to disable precision reduction in the search procedure. This will improve results but may give zero or few results. Default value is false.</param>
 		/// <returns>A list of matching geometries that may or may not intersect, contain or overlap the queried geometry</returns>
-		(IEnumerable<IndexEntry<T>>, string) Query(string hash, int minimumHits = 1, bool lockPrecision = false, T exclude = default);
+		(IEnumerable<IndexEntry<T>> Entries, string Geohash) Query(string geohash, int minimumHits = 1, bool lockPrecision = false, T exclude = default);
 
 		/// <summary>
 		/// The geohash implementation for this index

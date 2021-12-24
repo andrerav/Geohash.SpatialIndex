@@ -1,9 +1,9 @@
-﻿using Geohash.SpatialIndex.Core;
-using rm.Trie;
+﻿using rm.Trie;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Geohash.SpatialIndex.SpatialRelations
+namespace Geohash.SpatialIndex.Core
 {
 	/// <summary>
 	/// A default implementation of a trie map using the rm.Trie nuget package from https://www.nuget.org/packages/rm.Trie
@@ -13,6 +13,7 @@ namespace Geohash.SpatialIndex.SpatialRelations
 	{
 		private TrieMap<GeohashIndexEntryList<T>> trieMap = new TrieMap<GeohashIndexEntryList<T>>();
 
+		///<inheritdoc/>
 		public void Add(string key, IndexEntry<T> entry)
 		{
 			GeohashIndexEntryList<T> trieMapEntryList;
@@ -28,31 +29,44 @@ namespace Geohash.SpatialIndex.SpatialRelations
 			trieMapEntryList.IndexEntries.Add(entry);
 		}
 
+		///<inheritdoc/>
+		public void AddOrUpdate(string key, IndexEntry<T> entry)
+		{
+			Remove(entry.Value);
+			Add(key, entry);
+		}
+
+		///<inheritdoc/>
 		public GeohashIndexEntryList<T> Get(string key)
 		{
 			return trieMap.ValueBy(key);
 		}
 
+		///<inheritdoc/>
 		public bool HasKey(string key)
 		{
 			return trieMap.HasKey(key);
 		}
 
+		///<inheritdoc/>
 		public bool HasPrefix(string prefix)
 		{
 			return trieMap.HasKeyPrefix(prefix);
 		}
 
+		///<inheritdoc/>
 		public IEnumerable<string> Keys()
 		{
 			return trieMap.Keys();
 		}
 
+		///<inheritdoc/>
 		public void Remove(string key)
 		{
 			trieMap.Remove(key);
 		}
 
+		///<inheritdoc/>
 		public void Remove(string key, T value)
 		{
 			if (trieMap.HasKey(key))
@@ -65,11 +79,36 @@ namespace Geohash.SpatialIndex.SpatialRelations
 			}
 		}
 
+		///<inheritdoc/>
+		public void Remove(T value)
+		{
+			var indexEntryListList = trieMap.KeyValuePairs()
+										.Where(v => v.Value.IndexEntries.Any(ie => ie.Value.Equals(value)))
+										.ToList();
+
+			foreach (var kvpList in indexEntryListList)
+			{
+				// If it's a single entry or all entries are equal to this value then we
+				// can remove the entire key from the index
+				if (kvpList.Value.IndexEntries.Count() == 1
+					|| kvpList.Value.IndexEntries.All(ie => ie.Value.Equals(value)))
+				{
+					trieMap.Remove(kvpList.Key);
+				}
+				else
+				{
+					kvpList.Value.IndexEntries.RemoveAll(ie => ie.Value.Equals(value));
+				}
+			}
+		}
+
+		///<inheritdoc/>
 		public void RemovePrefix(string prefix)
 		{
 			trieMap.RemoveKeyPrefix(prefix);
 		}
 
+		///<inheritdoc/>
 		public IEnumerable<GeohashIndexEntryList<T>> Search(string prefix)
 		{
 			return trieMap.ValuesBy(prefix);

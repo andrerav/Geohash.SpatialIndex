@@ -1,9 +1,8 @@
-﻿using Geohash.SpatialIndex.Core;
-using NetTopologySuite.Geometries;
+﻿using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Geohash.SpatialIndex.SpatialRelations
+namespace Geohash.SpatialIndex.Core
 {
 	/// <summary>
 	/// A default geohasher implementation using the geohash-dotnet nuget package from https://www.nuget.org/packages/geohash-dotnet/
