@@ -36,6 +36,11 @@ namespace Geohash.SpatialIndex.Core
 			Add(key, entry);
 		}
 
+		public int Count()
+		{
+			return trieMap.Keys().Count();
+		}
+
 		///<inheritdoc/>
 		public GeohashIndexEntryList<T> Get(string key)
 		{
@@ -76,6 +81,13 @@ namespace Geohash.SpatialIndex.Core
 				{
 					entry.IndexEntries.RemoveAll(ie => ie.Value.Equals(value));
 				}
+
+				//Remove entire key if there are no entries anymore
+				if (entry.IndexEntries.Count() == 0)
+				{
+					trieMap.Remove(key);
+				}
+
 			}
 		}
 

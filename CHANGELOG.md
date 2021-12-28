@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.2.1 
+* Added Count() to the ITrieMap interface
+* Added a reverse index for improved InsertOrUpdate() performance
+
 ## Version 0.2.0
 * Added Remove(T value) method to remove entries by value
 * Added InsertOrUpdate(geohash, value) method. Note that the current implementation does a simple Remove(value) and then Insert(geohash, value), which is slow. Avoid using this when building the index from bulk data.

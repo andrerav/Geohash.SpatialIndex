@@ -31,5 +31,7 @@ namespace Geohash.SpatialIndex.Core
 		TEntryList Get(string key);
 
 		IEnumerable<TEntryList> Search(string prefix);
+
+		int Count();
 	}
 }

@@ -7,6 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="PointIndex.csv" />
+	  <None Remove="PolygonIndex.csv" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="csvhelper" Version="27.2.1" />
 		<PackageReference Include="NUnit" Version="3.13.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
