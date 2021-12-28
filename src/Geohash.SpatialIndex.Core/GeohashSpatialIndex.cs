@@ -1,4 +1,5 @@
 ﻿using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +11,7 @@ namespace Geohash.SpatialIndex.Core
 		private int _precision;
 		private IGeohasher _geohasher;
 		private IGeohashTrieMap<GeohashIndexEntryList<T>, T> _trieMap;
+		private Dictionary<T, IndexEntry<T>> _reverseIndex = new Dictionary<T, IndexEntry<T>>();
 
 		///<inheritdoc/>
 		public IGeohasher Geohasher => _geohasher;
@@ -33,47 +35,74 @@ namespace Geohash.SpatialIndex.Core
 		///<inheritdoc/>
 		public (string, IndexEntry<T>) Insert(Geometry geom, T value)
 		{
+			if (_reverseIndex.ContainsKey(value))
+			{
+				throw new InvalidOperationException($"This value already exists in the index. Use {nameof(InsertOrUpdate)} instead");
+			}
+
 			var key = _geohasher.Encode(geom, _precision);
 			var entry = new IndexEntry<T>
 			{
 				Geom = geom,
 				Value = value
 			};
+
 			_trieMap.Add(key, entry);
+			_reverseIndex[value] = entry;
 			return (key, entry);
 		}
 
 		///<inheritdoc/>
 		public (string, IndexEntry<T>) InsertOrUpdate(Geometry geom, T value)
 		{
-			var key = _geohasher.Encode(geom, _precision);
-			var entry = new IndexEntry<T>
+			if (_reverseIndex.ContainsKey(value))
 			{
-				Geom = geom,
-				Value = value
-			};
-			_trieMap.AddOrUpdate(key, entry);
-			return (key, entry);
+				var entry = _reverseIndex[value];
+				var existingKey = _geohasher.Encode(entry.Geom, _precision);
+				var newKey = _geohasher.Encode(geom, _precision);
+				if (newKey != existingKey)
+				{
+					_trieMap.Remove(existingKey, value);
+					_reverseIndex.Remove(value);
+					return Insert(geom, value);
+				}
+				else
+				{
+					return (existingKey, entry);
+				}
+			}
+			else
+			{
+				// Just add it
+				return Insert(geom, value);
+			}
 		}
 
 		///<inheritdoc/>
 		public void Remove(Geometry geom, T value)
 		{
-			var key = _geohasher.Encode(geom, _precision);
-			_trieMap.Remove(key, value);
+			var geohash = _geohasher.Encode(geom, _precision);
+			Remove(geohash, value);
 		}
 
 		///<inheritdoc/>
 		public void Remove(string geohash, T value)
 		{
 			_trieMap.Remove(geohash, value);
+			_reverseIndex.Remove(value);
 		}
 
 
 		///<inheritdoc/>
 		public void Remove(T value)
 		{
-			_trieMap.Remove(value);
+			if (_reverseIndex.ContainsKey(value))
+			{
+				var entry = _reverseIndex[value];
+				var geohash = _geohasher.Encode(entry.Geom, _precision);
+				Remove(geohash, value);
+			}
+
 		}
 
 		///<inheritdoc/>

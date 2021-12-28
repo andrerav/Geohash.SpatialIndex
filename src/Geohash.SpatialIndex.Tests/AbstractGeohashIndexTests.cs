@@ -33,12 +33,12 @@ namespace Geohash.SpatialIndex.Tests
 			pointRelations = new SpatialRelations<int>(pointIndex);
 			foreach (var polygon in polygons)
 			{
-				polygonIndex.Insert(polygon.Geom, polygon.HarbourId);
+				polygonIndex.InsertOrUpdate(polygon.Geom, polygon.HarbourId);
 			}
 
 			foreach (var position in vesselPositions.ToList())
 			{
-				pointIndex.Insert(position.Geom, position.Mmsi);
+				pointIndex.InsertOrUpdate(position.Geom, position.Mmsi);
 			}
 
 		}

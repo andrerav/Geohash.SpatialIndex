@@ -348,3 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/src/Geohash.SpatialIndex.Tests/PolygonIndex.csv
+/src/Geohash.SpatialIndex.Tests/PointIndex.csv

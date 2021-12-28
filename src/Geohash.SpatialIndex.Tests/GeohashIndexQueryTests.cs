@@ -128,7 +128,7 @@ namespace Geohash.SpatialIndex.Tests
 			// 7: 
 			var cell = "u4et7z";
 			var result = pointIndex.Query(cell).Item1.ToList();
-			Assert.AreEqual(result.Count(), 20);
+			Assert.AreEqual(result.Count(), 1);
 		}
 	}
 }
