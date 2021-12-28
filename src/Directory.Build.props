@@ -3,9 +3,9 @@
         <Authors>Andreas Ravnestad</Authors>
         <Copyright>Copyright © 2021 Andreas Ravnestad</Copyright>
         <Description>A spatial index backed by geohashing and Trie (prefix tree) maps. Geometries are encoded as geohashes and stored in a prefix tree, and reverse lookups are performing by encoding the queried geometry and using the prefix tree as an inverted lookup index. The index size can be tuned with the precision parameter. The geohasher and prefix tree map providers can be injected by implementing the IGeohasher and/or IGeohashTrieMap interfaces.</Description>
-        <AssemblyVersion>0.2.0</AssemblyVersion>
-        <FileVersion>0.2.0</FileVersion>
-        <Version>0.2.0</Version>
+        <AssemblyVersion>0.2.1</AssemblyVersion>
+        <FileVersion>0.2.1</FileVersion>
+        <Version>0.2.1</Version>
 		<PackageProjectUrl>https://github.com/andrerav/Geohash.SpatialIndex</PackageProjectUrl>
 		<PackageTags>Geohash Geohashing Spatial Index Geospatial GIS Trie Triemap Map NetTopologySuite NTS JTS Geometry Geometries</PackageTags>
 		<PackageIcon>logo.png</PackageIcon>
